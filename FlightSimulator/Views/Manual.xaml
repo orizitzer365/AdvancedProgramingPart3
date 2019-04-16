@@ -15,7 +15,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="1" HorizontalAlignment="Center">Aileron</TextBlock>
-            <TextBlock HorizontalAlignment="Center" Grid.Column="2" Text="0.0"></TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Column="2" Text="{Binding VM_aileron}"></TextBlock>
         </Grid>
         <Grid DockPanel.Dock="Right">
             <Grid.RowDefinitions>
@@ -23,7 +23,7 @@
                 <RowDefinition Height="4*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" VerticalAlignment="Center" Text="0.0">
+            <TextBlock Grid.Row="0" VerticalAlignment="Center" Text="{Binding VM_elevator}">
                 <TextBlock.LayoutTransform>
                     <RotateTransform Angle="90" />
                 </TextBlock.LayoutTransform>
@@ -74,6 +74,6 @@
         </Grid>
 
 
-        <local:Joystick ></local:Joystick>
+        <local:Joystick x:Name="joystick" ></local:Joystick>
     </DockPanel>
 </UserControl>

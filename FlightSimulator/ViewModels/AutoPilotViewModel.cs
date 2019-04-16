@@ -10,7 +10,7 @@ namespace FlightSimulator.ViewModels
 {
     class AutoPilotViewModel:BaseNotify
     {
-        public string VM_Text { get; set; }
+        public string VM_Text {get;set;}
         private ICommand _clearCommand;
         public ICommand ClearCommand
         {
@@ -37,10 +37,13 @@ namespace FlightSimulator.ViewModels
         }
         public void ClickOK()
         {
+            //model.sendCommands(VM_Text);
             //send the text to the model
             VM_Background = "Red";
             NotifyPropertyChanged("VM_Background");
         }
+        
+
     }
     
 }
