@@ -32,7 +32,7 @@ namespace FlightSimulator.ViewModels
             get
             {
                 return _okCommand ?? (_okCommand =
-                new CommandHandler(() => ClickClear()));
+                new CommandHandler(() => ClickOK()));
             }
         }
         public void ClickOK()

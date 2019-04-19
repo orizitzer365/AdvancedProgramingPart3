@@ -25,8 +25,10 @@ namespace FlightSimulator.Views
         public Manual()
         {
             InitializeComponent();
-            vm = new ManualViewModel(joystick);
+            vm = ManualViewModel.Instance;
             DataContext = vm;
         }
+
+       
     }
 }

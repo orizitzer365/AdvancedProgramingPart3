@@ -52,7 +52,7 @@
                     <RotateTransform Angle="90" />
                 </TextBlock.LayoutTransform>throttle</TextBlock>
             <Slider Grid.Column="1" Grid.Row="1" TickPlacement="BottomRight"  Orientation="Vertical" DockPanel.Dock="Left"
-                    Minimum="-1" Maximum="1" Value="{Binding VM_throttle}"  TickFrequency="0.1" 
+                    Minimum="0" Maximum="1" Value="{Binding VM_throttle}"  TickFrequency="0.1" 
              />
         </Grid>
 
@@ -74,6 +74,6 @@
         </Grid>
 
 
-        <local:Joystick x:Name="joystick" ></local:Joystick>
+        <local:Joystick  Elevator="{Binding VM_elevator}" Aileron="{Binding VM_aileron}" x:Name="joystick"  ></local:Joystick>
     </DockPanel>
 </UserControl>

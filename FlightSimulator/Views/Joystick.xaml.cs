@@ -1,4 +1,7 @@
-﻿using FlightSimulator.Model.EventArgs;
+﻿using FlightSimulator.Model;
+using FlightSimulator.Model.EventArgs;
+using FlightSimulator.ViewModels;
+using FlightSimulator.ViewModels.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +20,7 @@ using System.Windows.Shapes;
 
 namespace FlightSimulator.Views
 {
+    
     /// <summary>
     /// Interaction logic for Joystick.xaml
     /// </summary>
@@ -56,7 +60,7 @@ namespace FlightSimulator.Views
             get { return Convert.ToDouble(GetValue(ElevatorProperty)); }
             set { SetValue(ElevatorProperty, value); }
         }
-
+        private ManualViewModel vm;
         /// <summary>How often should be raised StickMove event in degrees</summary>
         public double AileronStep
         {
@@ -121,6 +125,10 @@ namespace FlightSimulator.Views
             Knob.MouseMove += Knob_MouseMove;
 
             centerKnob = Knob.Resources["CenterKnob"] as Storyboard;
+            vm = ManualViewModel.Instance;
+            DataContext = vm;
+            Moved += vm.update;
+            Released += vm.reset;
         }
 
         private void Knob_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -149,23 +157,29 @@ namespace FlightSimulator.Views
             double distance = Math.Round(Math.Sqrt(deltaPos.X * deltaPos.X + deltaPos.Y * deltaPos.Y));
             if (distance >= canvasWidth / 2 || distance >= canvasHeight / 2)
                 return;
-            Aileron = -deltaPos.Y;
-            Elevator = deltaPos.X;
+            
 
             knobPosition.X = deltaPos.X;
             knobPosition.Y = deltaPos.Y;
+            deltaPos.X /= canvasWidth / 2;
+            deltaPos.Y /= canvasHeight / 2;
+            Aileron = -deltaPos.Y;
+            Elevator = deltaPos.X;
 
             if (Moved == null ||
-                (!(Math.Abs(_prevAileron - Aileron) > AileronStep) && !(Math.Abs(_prevElevator - Elevator) > ElevatorStep)))
+                (!(Math.Abs(_prevAileron - Aileron) > AileronStep/ (canvasHeight / 2)) && !(Math.Abs(_prevElevator - Elevator) > ElevatorStep/(canvasWidth/2))))
                 return;
 
             Moved?.Invoke(this, new VirtualJoystickEventArgs { Aileron = Aileron, Elevator = Elevator });
             _prevAileron = Aileron;
             _prevElevator = Elevator;
-
+            vm.NotifyPropertyChanged("Aileron");
+            vm.NotifyPropertyChanged("Elevator");
         }
-
         
+
+
+
         private void Knob_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Knob.ReleaseMouseCapture();
